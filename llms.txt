@@ -1,0 +1,47 @@
+# llms.txt — AI Discovery File
+
+> ratatui-themes: Beautiful color themes for ratatui terminal UI applications
+
+## Overview
+
+ratatui-themes is a Rust library providing 15+ pre-defined color themes for applications built with the ratatui TUI framework. It extracts common theming patterns into a reusable crate with consistent semantic color palettes.
+
+## Key Features
+
+- 15+ popular themes (Dracula, Nord, Catppuccin, Tokyo Night, Gruvbox, etc.)
+- Semantic color palette (accent, error, warning, success, info)
+- Theme cycling with next()/prev() methods
+- Light/dark theme detection
+- Optional serde support for config files
+- Zero dependencies beyond ratatui
+
+## Quick Start
+
+```rust
+use ratatui_themes::{Theme, ThemeName};
+
+let theme = Theme::new(ThemeName::Dracula);
+let palette = theme.palette();
+
+// Use palette.accent, palette.bg, palette.error, etc.
+```
+
+## Installation
+
+```toml
+[dependencies]
+ratatui-themes = "0.1"
+```
+
+## Links
+
+- Documentation: https://docs.rs/ratatui-themes
+- Crates.io: https://crates.io/crates/ratatui-themes
+- Repository: https://github.com/ricardodantas/ratatui-themes
+- Issues: https://github.com/ricardodantas/ratatui-themes/issues
+
+## Related
+
+- ratatui: https://ratatui.rs
+- Feedo (uses this crate): https://github.com/ricardodantas/feedo
+- Hazelnut (uses this crate): https://github.com/ricardodantas/hazelnut

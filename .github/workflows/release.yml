@@ -1,0 +1,89 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type (none = release current version)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - none
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-edit
+        if: inputs.bump != 'none'
+        run: cargo install cargo-edit
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version
+        id: bump
+        run: |
+          CURRENT=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+          echo "Current version: $CURRENT"
+          
+          if [ "${{ inputs.bump }}" = "none" ]; then
+            echo "Releasing current version without bump"
+            NEW="$CURRENT"
+          else
+            cargo set-version --bump ${{ inputs.bump }}
+            NEW=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+            echo "New version: $NEW"
+          fi
+          
+          echo "version=$NEW" >> $GITHUB_OUTPUT
+
+      - name: Commit version bump
+        if: inputs.bump != 'none'
+        run: |
+          git add Cargo.toml Cargo.lock
+          git commit -m "chore: bump version to ${{ steps.bump.outputs.version }}" || echo "No changes to commit"
+
+      - name: Run tests
+        run: |
+          cargo test
+          cargo test --features serde
+
+      - name: Create and push tag
+        run: |
+          git tag "v${{ steps.bump.outputs.version }}"
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.bump.outputs.version }}
+          name: v${{ steps.bump.outputs.version }}
+          generate_release_notes: true
+
+      - name: Publish to crates.io
+        run: cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }}

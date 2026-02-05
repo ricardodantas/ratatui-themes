@@ -1,1 +1,9 @@
+# Ignore target directory
 target/
+
+# Ignore IDE specific files
+.idea/
+*.iml
+
+# Ignore Cargo.lock in libraries
+Cargo.lock
