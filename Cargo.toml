@@ -21,7 +21,7 @@ include = [
 ]
 
 [dependencies]
-ratatui = "0.29"
+ratatui = ">=0.29, <0.31"
 serde = { version = "1", features = ["derive"], optional = true }
 
 [features]
