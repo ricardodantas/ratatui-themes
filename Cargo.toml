@@ -1,0 +1,21 @@
+[package]
+name = "ratatui-themes"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ricardo Dantas <ricardo@ricardodantas.me>"]
+description = "A collection of popular color themes for ratatui terminal UI applications"
+license = "MIT"
+repository = "https://github.com/ricardodantas/ratatui-themes"
+homepage = "https://github.com/ricardodantas/ratatui-themes"
+documentation = "https://docs.rs/ratatui-themes"
+readme = "README.md"
+keywords = ["ratatui", "tui", "terminal", "themes", "colors"]
+categories = ["command-line-interface", "gui"]
+
+[dependencies]
+ratatui = "0.29"
+serde = { version = "1", features = ["derive"], optional = true }
+
+[features]
+default = ["serde"]
+serde = ["dep:serde"]
