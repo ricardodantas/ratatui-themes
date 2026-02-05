@@ -332,20 +332,12 @@ impl std::fmt::Display for ThemeName {
 /// Theme configuration wrapper.
 ///
 /// Provides convenient access to theme colors and metadata.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Theme {
     /// The selected theme name.
     #[cfg_attr(feature = "serde", serde(default))]
     pub name: ThemeName,
-}
-
-impl Default for Theme {
-    fn default() -> Self {
-        Self {
-            name: ThemeName::default(),
-        }
-    }
 }
 
 impl Theme {
