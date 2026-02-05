@@ -7,7 +7,7 @@
 [![Crates.io](https://img.shields.io/crates/v/ratatui-themes.svg)](https://crates.io/crates/ratatui-themes)
 [![Documentation](https://docs.rs/ratatui-themes/badge.svg)](https://docs.rs/ratatui-themes)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.74%2B-orange.svg)](https://www.rust-lang.org)
+[![Rust](https://img.shields.io/badge/rust-stable-orange.svg)](https://www.rust-lang.org)
 
 [Features](#features) • [Installation](#installation) • [Quick Start](#quick-start) • [Themes](#available-themes) • [API](#api-reference) • [Examples](#examples)
 

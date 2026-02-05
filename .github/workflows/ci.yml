@@ -61,20 +61,3 @@ jobs:
         run: cargo doc --no-deps --all-features
         env:
           RUSTDOCFLAGS: -D warnings
-
-  msrv:
-    name: MSRV (1.74.0)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: "1.74.0"
-      
-      - name: Delete Cargo.lock for MSRV check
-        run: rm -f Cargo.lock
-      
-      - name: Check MSRV
-        run: cargo check --all-features
