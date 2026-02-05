@@ -2,6 +2,7 @@
 name = "ratatui-themes"
 version = "0.1.1"
 edition = "2021"
+rust-version = "1.74.0"
 authors = ["Ricardo Dantas <ricardo@ricardodantas.me>"]
 description = "A collection of popular color themes for ratatui terminal UI applications"
 license = "MIT"
@@ -11,6 +12,13 @@ documentation = "https://docs.rs/ratatui-themes"
 readme = "README.md"
 keywords = ["ratatui", "tui", "terminal", "themes", "colors"]
 categories = ["command-line-interface", "gui"]
+include = [
+    "src/**/*",
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md",
+]
 
 [dependencies]
 ratatui = "0.29"
@@ -19,3 +27,15 @@ serde = { version = "1", features = ["derive"], optional = true }
 [features]
 default = ["serde"]
 serde = ["dep:serde"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"

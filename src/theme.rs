@@ -1,4 +1,7 @@
 //! Theme definitions and configuration.
+//!
+//! This module contains the [`ThemeName`] enum representing all available themes,
+//! and the [`Theme`] struct which provides a convenient wrapper for working with themes.
 
 use crate::palette::ThemePalette;
 use ratatui::style::Color;
@@ -6,46 +9,186 @@ use ratatui::style::Color;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-/// Available themes based on popular terminal/editor color schemes.
+/// Enumeration of all available color themes.
+///
+/// Each variant represents a popular terminal/editor color scheme that has been
+/// carefully adapted for terminal UI use. Themes are sourced from their official
+/// specifications where available.
+///
+/// # Default Theme
+///
+/// The default theme is [`Dracula`](Self::Dracula), chosen for its excellent
+/// readability and widespread popularity.
+///
+/// # Serialization
+///
+/// With the `serde` feature enabled (default), theme names serialize to kebab-case
+/// strings for human-readable configuration files:
+///
+/// ```rust
+/// use ratatui_themes::ThemeName;
+///
+/// // Serializes as: "tokyo-night"
+/// let theme = ThemeName::TokyoNight;
+/// ```
+///
+/// # Example
+///
+/// ```rust
+/// use ratatui_themes::ThemeName;
+///
+/// // Get a specific theme
+/// let theme = ThemeName::Nord;
+/// let palette = theme.palette();
+///
+/// // Iterate over all themes
+/// for theme in ThemeName::all() {
+///     println!("{}: {:?}", theme.display_name(), theme.palette().accent);
+/// }
+/// ```
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde", serde(rename_all = "kebab-case"))]
+#[non_exhaustive]
 pub enum ThemeName {
     /// Dracula — dark purple aesthetic.
+    ///
+    /// A dark theme with a distinctive purple accent, excellent contrast,
+    /// and vibrant colors. One of the most popular themes across editors.
+    ///
+    /// Source: <https://draculatheme.com>
     #[default]
     Dracula,
+
     /// One Dark Pro — Atom's iconic dark theme.
+    ///
+    /// The beloved theme from the Atom editor, featuring a balanced
+    /// color palette with blue as the primary accent.
+    ///
+    /// Source: <https://github.com/Binaryify/OneDark-Pro>
     OneDarkPro,
+
     /// Nord — arctic, bluish color palette.
+    ///
+    /// An arctic, north-bluish color palette inspired by the beauty
+    /// of the arctic. Clean, elegant, and easy on the eyes.
+    ///
+    /// Source: <https://www.nordtheme.com>
     Nord,
+
     /// Catppuccin Mocha — warm pastel dark theme.
+    ///
+    /// A soothing pastel theme with warm colors. Mocha is the darkest
+    /// variant with a rich, cozy feel.
+    ///
+    /// Source: <https://catppuccin.com>
     CatppuccinMocha,
+
     /// Catppuccin Latte — warm pastel light theme.
+    ///
+    /// The light variant of Catppuccin with the same warm pastel
+    /// aesthetic adapted for bright environments.
+    ///
+    /// Source: <https://catppuccin.com>
     CatppuccinLatte,
+
     /// Gruvbox Dark — retro groove colors.
+    ///
+    /// A retro groove color scheme with warm, earthy tones. Known for
+    /// its excellent readability and nostalgic feel.
+    ///
+    /// Source: <https://github.com/morhetz/gruvbox>
     GruvboxDark,
+
     /// Gruvbox Light — retro groove, light variant.
+    ///
+    /// The light variant of Gruvbox, perfect for well-lit environments
+    /// while maintaining the warm, retro aesthetic.
+    ///
+    /// Source: <https://github.com/morhetz/gruvbox>
     GruvboxLight,
+
     /// Tokyo Night — futuristic dark blue.
+    ///
+    /// A clean, dark theme that celebrates the lights of downtown Tokyo
+    /// at night. Features a deep blue background with vibrant accents.
+    ///
+    /// Source: <https://github.com/enkia/tokyo-night-vscode-theme>
     TokyoNight,
+
     /// Solarized Dark — precision colors, dark.
+    ///
+    /// A precision-engineered color scheme with scientifically chosen
+    /// colors for optimal readability. Dark variant.
+    ///
+    /// Source: <https://ethanschoonover.com/solarized>
     SolarizedDark,
+
     /// Solarized Light — precision colors, light.
+    ///
+    /// The light variant of Solarized, using the same precision-engineered
+    /// colors adapted for bright environments.
+    ///
+    /// Source: <https://ethanschoonover.com/solarized>
     SolarizedLight,
+
     /// Monokai Pro — classic syntax highlighting colors.
+    ///
+    /// The professional evolution of the iconic Monokai color scheme.
+    /// Features refined colors with excellent contrast.
+    ///
+    /// Source: <https://monokai.pro>
     MonokaiPro,
-    /// Rosé Pine — all natural pine, faux fur, and a bit of soho vibes.
+
+    /// Rosé Pine — all natural pine, faux fur, and soho vibes.
+    ///
+    /// A low-key colorscheme with subtle, muted colors and a
+    /// warm, natural feel.
+    ///
+    /// Source: <https://rosepinetheme.com>
     RosePine,
+
     /// Kanagawa — dark theme inspired by Katsushika Hokusai.
+    ///
+    /// Inspired by the famous "The Great Wave off Kanagawa" painting.
+    /// Features a Japanese aesthetic with deep, rich colors.
+    ///
+    /// Source: <https://github.com/rebelot/kanagawa.nvim>
     Kanagawa,
+
     /// Everforest — comfortable green forest theme.
+    ///
+    /// A green-based color scheme designed for a comfortable,
+    /// relaxed coding experience with soft, natural colors.
+    ///
+    /// Source: <https://github.com/sainnhe/everforest>
     Everforest,
+
     /// Cyberpunk — neon-soaked futuristic theme.
+    ///
+    /// A high-contrast theme with neon colors inspired by the
+    /// cyberpunk genre. Bold, vibrant, and futuristic.
     Cyberpunk,
 }
 
 impl ThemeName {
-    /// Get all available theme names.
+    /// Returns a slice containing all available theme names.
+    ///
+    /// Useful for building theme selection UIs or iterating over all themes.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    ///
+    /// // Build a theme selection menu
+    /// for theme in ThemeName::all() {
+    ///     println!("- {}", theme.display_name());
+    /// }
+    ///
+    /// // Get the total number of themes
+    /// assert_eq!(ThemeName::all().len(), 15);
+    /// ```
     #[must_use]
     pub const fn all() -> &'static [Self] {
         &[
@@ -67,7 +210,19 @@ impl ThemeName {
         ]
     }
 
-    /// Get the display name for the theme.
+    /// Returns the human-readable display name for the theme.
+    ///
+    /// This is useful for UI display where you want properly formatted
+    /// theme names (e.g., "Tokyo Night" instead of `TokyoNight`).
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    ///
+    /// assert_eq!(ThemeName::TokyoNight.display_name(), "Tokyo Night");
+    /// assert_eq!(ThemeName::CatppuccinMocha.display_name(), "Catppuccin Mocha");
+    /// ```
     #[must_use]
     pub const fn display_name(self) -> &'static str {
         match self {
@@ -89,7 +244,22 @@ impl ThemeName {
         }
     }
 
-    /// Get the next theme in the list (for cycling).
+    /// Returns the next theme in the list, wrapping around at the end.
+    ///
+    /// Useful for implementing theme cycling with a "next theme" button.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    ///
+    /// let theme = ThemeName::Dracula;
+    /// assert_eq!(theme.next(), ThemeName::OneDarkPro);
+    ///
+    /// // Wraps around at the end
+    /// let last = ThemeName::Cyberpunk;
+    /// assert_eq!(last.next(), ThemeName::Dracula);
+    /// ```
     #[must_use]
     pub fn next(self) -> Self {
         let themes = Self::all();
@@ -97,7 +267,22 @@ impl ThemeName {
         themes[(current + 1) % themes.len()]
     }
 
-    /// Get the previous theme in the list (for cycling).
+    /// Returns the previous theme in the list, wrapping around at the beginning.
+    ///
+    /// Useful for implementing theme cycling with a "previous theme" button.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    ///
+    /// let theme = ThemeName::OneDarkPro;
+    /// assert_eq!(theme.prev(), ThemeName::Dracula);
+    ///
+    /// // Wraps around at the beginning
+    /// let first = ThemeName::Dracula;
+    /// assert_eq!(first.prev(), ThemeName::Cyberpunk);
+    /// ```
     #[must_use]
     pub fn prev(self) -> Self {
         let themes = Self::all();
@@ -105,7 +290,23 @@ impl ThemeName {
         themes[(current + themes.len() - 1) % themes.len()]
     }
 
-    /// Get the color palette for this theme.
+    /// Returns the color palette for this theme.
+    ///
+    /// The palette contains all the semantic colors you need to style your UI.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    /// use ratatui::style::Style;
+    ///
+    /// let palette = ThemeName::Nord.palette();
+    ///
+    /// // Use palette colors in your styles
+    /// let style = Style::default()
+    ///     .fg(palette.fg)
+    ///     .bg(palette.bg);
+    /// ```
     #[must_use]
     #[allow(clippy::too_many_lines)]
     pub const fn palette(self) -> ThemePalette {
@@ -329,9 +530,28 @@ impl std::fmt::Display for ThemeName {
     }
 }
 
-/// Theme configuration wrapper.
+/// A theme configuration wrapper providing convenient access to theme colors.
 ///
-/// Provides convenient access to theme colors and metadata.
+/// This struct wraps a [`ThemeName`] and provides methods for accessing
+/// the theme's color palette and metadata. It's useful when you want to
+/// store a theme reference that can be easily modified.
+///
+/// # Example
+///
+/// ```rust
+/// use ratatui_themes::Theme;
+/// use ratatui_themes::ThemeName;
+///
+/// // Create a theme
+/// let mut theme = Theme::new(ThemeName::Nord);
+///
+/// // Access the palette
+/// let accent = theme.palette().accent;
+///
+/// // Cycle to the next theme
+/// theme.next();
+/// assert_eq!(theme.name, ThemeName::CatppuccinMocha);
+/// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Theme {
@@ -342,35 +562,95 @@ pub struct Theme {
 
 impl Theme {
     /// Create a new theme with the given name.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::{Theme, ThemeName};
+    ///
+    /// let theme = Theme::new(ThemeName::Dracula);
+    /// ```
     #[must_use]
     pub const fn new(name: ThemeName) -> Self {
         Self { name }
     }
 
-    /// Get the color palette for the current theme.
+    /// Returns the color palette for the current theme.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::{Theme, ThemeName};
+    /// use ratatui::style::Style;
+    ///
+    /// let theme = Theme::new(ThemeName::TokyoNight);
+    /// let palette = theme.palette();
+    ///
+    /// let style = Style::default()
+    ///     .fg(palette.fg)
+    ///     .bg(palette.bg);
+    /// ```
     #[must_use]
     pub const fn palette(&self) -> ThemePalette {
         self.name.palette()
     }
 
     /// Check if this is a light theme.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::{Theme, ThemeName};
+    ///
+    /// let theme = Theme::new(ThemeName::CatppuccinLatte);
+    /// assert!(theme.is_light());
+    /// ```
     #[must_use]
     pub fn is_light(&self) -> bool {
         self.palette().is_light()
     }
 
     /// Check if this is a dark theme.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::{Theme, ThemeName};
+    ///
+    /// let theme = Theme::new(ThemeName::Dracula);
+    /// assert!(theme.is_dark());
+    /// ```
     #[must_use]
     pub fn is_dark(&self) -> bool {
         self.palette().is_dark()
     }
 
-    /// Cycle to the next theme.
+    /// Cycle to the next theme in the list.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::{Theme, ThemeName};
+    ///
+    /// let mut theme = Theme::new(ThemeName::Dracula);
+    /// theme.next();
+    /// assert_eq!(theme.name, ThemeName::OneDarkPro);
+    /// ```
     pub fn next(&mut self) {
         self.name = self.name.next();
     }
 
-    /// Cycle to the previous theme.
+    /// Cycle to the previous theme in the list.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::{Theme, ThemeName};
+    ///
+    /// let mut theme = Theme::new(ThemeName::OneDarkPro);
+    /// theme.prev();
+    /// assert_eq!(theme.name, ThemeName::Dracula);
+    /// ```
     pub fn prev(&mut self) {
         self.name = self.name.prev();
     }
@@ -382,6 +662,12 @@ impl From<ThemeName> for Theme {
     }
 }
 
+impl std::fmt::Display for Theme {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.name)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -390,7 +676,7 @@ mod tests {
     fn test_all_themes_have_palettes() {
         for theme in ThemeName::all() {
             let palette = theme.palette();
-            // Just verify it doesn't panic
+            // Just verify it doesn't panic and colors are distinct
             assert_ne!(palette.fg, palette.bg);
         }
     }
@@ -410,11 +696,27 @@ mod tests {
     }
 
     #[test]
+    fn test_theme_cycling_backward() {
+        let mut theme = ThemeName::Dracula;
+        let original = theme;
+
+        // Cycle backward through all themes
+        for _ in 0..ThemeName::all().len() {
+            theme = theme.prev();
+        }
+
+        // Should be back to original
+        assert_eq!(theme, original);
+    }
+
+    #[test]
     fn test_light_dark_detection() {
+        // Light themes
         assert!(ThemeName::CatppuccinLatte.palette().is_light());
         assert!(ThemeName::GruvboxLight.palette().is_light());
         assert!(ThemeName::SolarizedLight.palette().is_light());
 
+        // Dark themes
         assert!(ThemeName::Dracula.palette().is_dark());
         assert!(ThemeName::Nord.palette().is_dark());
         assert!(ThemeName::TokyoNight.palette().is_dark());
@@ -428,5 +730,41 @@ mod tests {
             ThemeName::CatppuccinMocha.display_name(),
             "Catppuccin Mocha"
         );
+    }
+
+    #[test]
+    fn test_theme_display_trait() {
+        assert_eq!(format!("{}", ThemeName::Dracula), "Dracula");
+        assert_eq!(format!("{}", ThemeName::TokyoNight), "Tokyo Night");
+    }
+
+    #[test]
+    fn test_theme_wrapper() {
+        let mut theme = Theme::new(ThemeName::Dracula);
+        assert_eq!(theme.name, ThemeName::Dracula);
+        assert!(theme.is_dark());
+
+        theme.next();
+        assert_eq!(theme.name, ThemeName::OneDarkPro);
+
+        theme.prev();
+        assert_eq!(theme.name, ThemeName::Dracula);
+    }
+
+    #[test]
+    fn test_theme_from_name() {
+        let theme: Theme = ThemeName::Nord.into();
+        assert_eq!(theme.name, ThemeName::Nord);
+    }
+
+    #[test]
+    fn test_default_theme() {
+        assert_eq!(ThemeName::default(), ThemeName::Dracula);
+        assert_eq!(Theme::default().name, ThemeName::Dracula);
+    }
+
+    #[test]
+    fn test_theme_count() {
+        assert_eq!(ThemeName::all().len(), 15);
     }
 }
