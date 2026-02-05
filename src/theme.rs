@@ -407,12 +407,12 @@ mod tests {
     fn test_theme_cycling() {
         let mut theme = ThemeName::Dracula;
         let original = theme;
-        
+
         // Cycle through all themes
         for _ in 0..ThemeName::all().len() {
             theme = theme.next();
         }
-        
+
         // Should be back to original
         assert_eq!(theme, original);
     }
@@ -422,7 +422,7 @@ mod tests {
         assert!(ThemeName::CatppuccinLatte.palette().is_light());
         assert!(ThemeName::GruvboxLight.palette().is_light());
         assert!(ThemeName::SolarizedLight.palette().is_light());
-        
+
         assert!(ThemeName::Dracula.palette().is_dark());
         assert!(ThemeName::Nord.palette().is_dark());
         assert!(ThemeName::TokyoNight.palette().is_dark());
@@ -432,6 +432,9 @@ mod tests {
     fn test_display_name() {
         assert_eq!(ThemeName::Dracula.display_name(), "Dracula");
         assert_eq!(ThemeName::TokyoNight.display_name(), "Tokyo Night");
-        assert_eq!(ThemeName::CatppuccinMocha.display_name(), "Catppuccin Mocha");
+        assert_eq!(
+            ThemeName::CatppuccinMocha.display_name(),
+            "Catppuccin Mocha"
+        );
     }
 }
