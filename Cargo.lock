@@ -889,7 +889,7 @@ dependencies = [
 
 [[package]]
 name = "ratatui-themes"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "ratatui",
  "serde",
