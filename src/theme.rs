@@ -244,6 +244,41 @@ impl ThemeName {
         }
     }
 
+    /// Returns the kebab-case slug for the theme (used in config files).
+    ///
+    /// This matches the serde serialization format and is suitable for
+    /// storing in configuration files.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    ///
+    /// assert_eq!(ThemeName::TokyoNight.slug(), "tokyo-night");
+    /// assert_eq!(ThemeName::CatppuccinMocha.slug(), "catppuccin-mocha");
+    /// assert_eq!(ThemeName::Dracula.slug(), "dracula");
+    /// ```
+    #[must_use]
+    pub const fn slug(self) -> &'static str {
+        match self {
+            Self::Dracula => "dracula",
+            Self::OneDarkPro => "one-dark-pro",
+            Self::Nord => "nord",
+            Self::CatppuccinMocha => "catppuccin-mocha",
+            Self::CatppuccinLatte => "catppuccin-latte",
+            Self::GruvboxDark => "gruvbox-dark",
+            Self::GruvboxLight => "gruvbox-light",
+            Self::TokyoNight => "tokyo-night",
+            Self::SolarizedDark => "solarized-dark",
+            Self::SolarizedLight => "solarized-light",
+            Self::MonokaiPro => "monokai-pro",
+            Self::RosePine => "rose-pine",
+            Self::Kanagawa => "kanagawa",
+            Self::Everforest => "everforest",
+            Self::Cyberpunk => "cyberpunk",
+        }
+    }
+
     /// Returns the next theme in the list, wrapping around at the end.
     ///
     /// Useful for implementing theme cycling with a "next theme" button.
