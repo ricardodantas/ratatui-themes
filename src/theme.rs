@@ -589,7 +589,11 @@ impl std::str::FromStr for ThemeName {
     /// ```
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         // Normalize: lowercase and remove spaces/hyphens/underscores
-        let normalized: String = s.to_lowercase().chars().filter(|c| c.is_alphanumeric()).collect();
+        let normalized: String = s
+            .to_lowercase()
+            .chars()
+            .filter(|c| c.is_alphanumeric())
+            .collect();
 
         match normalized.as_str() {
             "dracula" => Ok(Self::Dracula),
