@@ -530,6 +530,53 @@ impl std::fmt::Display for ThemeName {
     }
 }
 
+impl std::str::FromStr for ThemeName {
+    type Err = String;
+
+    /// Parse a theme name from a string.
+    ///
+    /// Accepts kebab-case (as used in serde/config files), PascalCase,
+    /// or lowercase names.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use ratatui_themes::ThemeName;
+    ///
+    /// // Kebab-case (config file format)
+    /// assert_eq!("tokyo-night".parse::<ThemeName>().unwrap(), ThemeName::TokyoNight);
+    ///
+    /// // Display name style
+    /// assert_eq!("Tokyo Night".parse::<ThemeName>().unwrap(), ThemeName::TokyoNight);
+    ///
+    /// // Lowercase
+    /// assert_eq!("dracula".parse::<ThemeName>().unwrap(), ThemeName::Dracula);
+    /// ```
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        // Normalize: lowercase and remove spaces/hyphens/underscores
+        let normalized: String = s.to_lowercase().chars().filter(|c| c.is_alphanumeric()).collect();
+
+        match normalized.as_str() {
+            "dracula" => Ok(Self::Dracula),
+            "onedarkpro" | "onedark" => Ok(Self::OneDarkPro),
+            "nord" => Ok(Self::Nord),
+            "catppuccinmocha" | "mocha" => Ok(Self::CatppuccinMocha),
+            "catppuccinlatte" | "latte" => Ok(Self::CatppuccinLatte),
+            "gruvboxdark" | "gruvbox" => Ok(Self::GruvboxDark),
+            "gruvboxlight" => Ok(Self::GruvboxLight),
+            "tokyonight" | "tokyo" => Ok(Self::TokyoNight),
+            "solarizeddark" | "solarized" => Ok(Self::SolarizedDark),
+            "solarizedlight" => Ok(Self::SolarizedLight),
+            "monokaipro" | "monokai" => Ok(Self::MonokaiPro),
+            "rosepine" | "rose" => Ok(Self::RosePine),
+            "kanagawa" => Ok(Self::Kanagawa),
+            "everforest" => Ok(Self::Everforest),
+            "cyberpunk" => Ok(Self::Cyberpunk),
+            _ => Err(format!("Unknown theme: {s}")),
+        }
+    }
+}
+
 /// A theme configuration wrapper providing convenient access to theme colors.
 ///
 /// This struct wraps a [`ThemeName`] and provides methods for accessing
