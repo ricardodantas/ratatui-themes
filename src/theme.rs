@@ -570,7 +570,7 @@ impl std::str::FromStr for ThemeName {
 
     /// Parse a theme name from a string.
     ///
-    /// Accepts kebab-case (as used in serde/config files), PascalCase,
+    /// Accepts kebab-case (as used in serde/config files), `PascalCase`,
     /// or lowercase names.
     ///
     /// # Example
