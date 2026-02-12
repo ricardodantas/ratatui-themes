@@ -1,10 +1,8 @@
-use ratatui::crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use ratatui::{
-    prelude::*,
-    widgets::{Block, Borders, Paragraph},
+    crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind},
     DefaultTerminal, Frame,
 };
-use ratatui_themes::{Theme, ThemeName};
+use ratatui_themes::{Theme, ThemeName, ThemePicker};
 use std::io;
 
 struct App {
@@ -48,34 +46,11 @@ impl App {
     }
 
     fn render(&self, frame: &mut Frame) {
-        let palette = self.theme.palette();
+        let picker = ThemePicker::new(self.theme.name)
+            .title("Ratatui Theme Gallery")
+            .instructions("Previous <Left> Next <Right> Quit <Q>");
 
-        // Create styled block
-        let block = Block::bordered()
-            .title(Line::from("Ratatui Theme Gallery").centered())
-            .title_bottom(Line::from("Previous <Left> Next <Right> Quit <Q>").centered())
-            .borders(Borders::ALL)
-            .border_style(Style::default().fg(palette.muted))
-            .title_style(Style::default().fg(palette.accent).bold());
-
-        // Create paragraph with theme colors
-        let text = vec![
-            Line::from(self.theme.name.display_name()).style(Style::default().fg(palette.fg)),
-            Line::from("  - accent").style(Style::default().fg(palette.accent)),
-            Line::from("  - secondary").style(Style::default().fg(palette.secondary)),
-            Line::from("  - bg (on fg)").style(Style::default().fg(palette.bg).bg(palette.fg)),
-            Line::from("  - fg (on bg)").style(Style::default().fg(palette.fg).bg(palette.bg)),
-            Line::from("  - muted").style(Style::default().fg(palette.muted)),
-            Line::from("  - selection (as bg)").style(Style::default().bg(palette.selection)),
-            Line::from("  - error").style(Style::default().fg(palette.error)),
-            Line::from("  - warning").style(Style::default().fg(palette.warning)),
-            Line::from("  - success").style(Style::default().fg(palette.success)),
-            Line::from("  - info").style(Style::default().fg(palette.info)),
-        ];
-
-        let text = Paragraph::new(text).block(block);
-
-        frame.render_widget(text, frame.area());
+        frame.render_widget(picker, frame.area());
     }
 }
 

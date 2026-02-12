@@ -95,6 +95,7 @@
 //! ## Feature Flags
 //!
 //! - **`serde`** (enabled by default) — Enables serialization/deserialization of theme names
+//! - **`widgets`** — Provides ready-to-use widgets like [`ThemePicker`]
 //!
 //! To disable serde support:
 //!
@@ -130,3 +131,10 @@ pub use ratatui::style::Color;
 ///
 /// This allows you to use `ratatui_themes::Style` without additional imports.
 pub use ratatui::style::Style;
+
+/// Enable included widgets.
+#[cfg(feature = "widgets")]
+pub mod widgets;
+
+#[cfg(feature = "widgets")]
+pub use widgets::ThemePicker;
