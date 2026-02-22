@@ -4,10 +4,10 @@
 
 **Beautiful, consistent color themes for [ratatui](https://ratatui.rs) terminal UI applications.**
 
-- [![Crates.io](https://img.shields.io/crates/v/ratatui-themes.svg)](https://crates.io/crates/ratatui-themes)
-- [![Documentation](https://docs.rs/ratatui-themes/badge.svg)](https://docs.rs/ratatui-themes)
-- [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-- [![Rust](https://img.shields.io/badge/rust-stable-orange.svg)](https://www.rust-lang.org)
+[![Crates.io](https://img.shields.io/crates/v/ratatui-themes.svg)](https://crates.io/crates/ratatui-themes)
+[![Documentation](https://docs.rs/ratatui-themes/badge.svg)](https://docs.rs/ratatui-themes)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/rust-stable-orange.svg)](https://www.rust-lang.org)
 
 [Features](#features) • [Installation](#installation) • [Quick Start](#quick-start) • [Themes](#available-themes) • [API](#api-reference) • [Examples](#examples)
 
@@ -66,23 +66,23 @@ let muted_text = Style::default()
 
 ## 🎨 Available Themes
 
-| Theme                | Type     | Preview   | Description                  |
-| -------------------- | -------- | --------- | ---------------------------- |
-| **Dracula**          | 🌙 Dark  | `#bd93f9` | Iconic dark purple aesthetic |
-| **One Dark Pro**     | 🌙 Dark  | `#61afef` | Atom's beloved dark theme    |
-| **Nord**             | 🌙 Dark  | `#88c0d0` | Arctic, bluish color palette |
-| **Catppuccin Mocha** | 🌙 Dark  | `#cba6f7` | Warm, soothing pastel dark   |
-| **Catppuccin Latte** | ☀️ Light | `#8839ef` | Warm pastel light variant    |
-| **Gruvbox Dark**     | 🌙 Dark  | `#fabd2f` | Retro groove colors          |
-| **Gruvbox Light**    | ☀️ Light | `#d79921` | Retro groove, light mode     |
-| **Tokyo Night**      | 🌙 Dark  | `#7aa2f7` | Futuristic Tokyo cityscape   |
-| **Solarized Dark**   | 🌙 Dark  | `#268bd2` | Precision-engineered colors  |
-| **Solarized Light**  | ☀️ Light | `#268bd2` | Solarized for bright rooms   |
-| **Monokai Pro**      | 🌙 Dark  | `#ffd866` | Classic syntax colors        |
-| **Rosé Pine**        | 🌙 Dark  | `#c4a7e7` | Natural, muted elegance      |
-| **Kanagawa**         | 🌙 Dark  | `#7e9cd8` | Inspired by Hokusai's art    |
-| **Everforest**       | 🌙 Dark  | `#a7c080` | Comfortable forest green     |
-| **Cyberpunk**        | 🌙 Dark  | `#ff00ff` | Neon-soaked futuristic       |
+| Theme | Type | Preview | Description |
+|-------|------|---------|-------------|
+| **Dracula** | 🌙 Dark | `#bd93f9` | Iconic dark purple aesthetic |
+| **One Dark Pro** | 🌙 Dark | `#61afef` | Atom's beloved dark theme |
+| **Nord** | 🌙 Dark | `#88c0d0` | Arctic, bluish color palette |
+| **Catppuccin Mocha** | 🌙 Dark | `#cba6f7` | Warm, soothing pastel dark |
+| **Catppuccin Latte** | ☀️ Light | `#8839ef` | Warm pastel light variant |
+| **Gruvbox Dark** | 🌙 Dark | `#fabd2f` | Retro groove colors |
+| **Gruvbox Light** | ☀️ Light | `#d79921` | Retro groove, light mode |
+| **Tokyo Night** | 🌙 Dark | `#7aa2f7` | Futuristic Tokyo cityscape |
+| **Solarized Dark** | 🌙 Dark | `#268bd2` | Precision-engineered colors |
+| **Solarized Light** | ☀️ Light | `#268bd2` | Solarized for bright rooms |
+| **Monokai Pro** | 🌙 Dark | `#ffd866` | Classic syntax colors |
+| **Rosé Pine** | 🌙 Dark | `#c4a7e7` | Natural, muted elegance |
+| **Kanagawa** | 🌙 Dark | `#7e9cd8` | Inspired by Hokusai's art |
+| **Everforest** | 🌙 Dark | `#a7c080` | Comfortable forest green |
+| **Cyberpunk** | 🌙 Dark | `#ff00ff` | Neon-soaked futuristic |
 
 ## 🔧 API Reference
 
@@ -99,7 +99,7 @@ pub struct ThemePalette {
     pub fg: Color,          // Primary foreground/text color
     pub muted: Color,       // Dimmed text, comments, placeholders
     pub selection: Color,   // Selection/highlight background
-
+    
     // Semantic colors
     pub error: Color,       // Errors, deletions, critical alerts
     pub warning: Color,     // Warnings, cautions, pending states
@@ -191,7 +191,7 @@ impl App {
 
     fn render(&self, frame: &mut Frame) {
         let palette = self.theme.palette();
-
+        
         // Create styled block
         let block = Block::default()
             .title(" My App ")
@@ -221,7 +221,7 @@ use ratatui_themes::{Theme, ThemeName};
 
 fn render_status_bar(theme: &Theme, status: &str) -> Style {
     let palette = theme.palette();
-
+    
     match status {
         "error" => Style::default().fg(palette.error).bold(),
         "warning" => Style::default().fg(palette.warning),
