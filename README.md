@@ -163,6 +163,12 @@ struct AppConfig {
 
 ## 📖 Examples
 
+View the theme gallery:
+
+```bash
+cargo run --example gallery --features widgets
+```
+
 ### Complete TUI App Example
 
 ```rust
