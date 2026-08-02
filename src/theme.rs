@@ -169,6 +169,13 @@ pub enum ThemeName {
     /// A high-contrast theme with neon colors inspired by the
     /// cyberpunk genre. Bold, vibrant, and futuristic.
     Cyberpunk,
+
+    /// Midnight Commander — classic file manager theme.
+    ///
+    /// A classic blue and cyan theme inspired by the Midnight Commander
+    /// file manager. Features a dark blue background with cyan and white
+    /// text elements.
+    MidnightCommander,
 }
 
 impl ThemeName {
@@ -187,7 +194,7 @@ impl ThemeName {
     /// }
     ///
     /// // Get the total number of themes
-    /// assert_eq!(ThemeName::all().len(), 15);
+    /// assert_eq!(ThemeName::all().len(), 16);
     /// ```
     #[must_use]
     pub const fn all() -> &'static [Self] {
@@ -207,6 +214,7 @@ impl ThemeName {
             Self::Kanagawa,
             Self::Everforest,
             Self::Cyberpunk,
+            Self::MidnightCommander,
         ]
     }
 
@@ -241,6 +249,7 @@ impl ThemeName {
             Self::Kanagawa => "Kanagawa",
             Self::Everforest => "Everforest",
             Self::Cyberpunk => "Cyberpunk",
+            Self::MidnightCommander => "Midnight Commander",
         }
     }
 
@@ -276,6 +285,7 @@ impl ThemeName {
             Self::Kanagawa => "kanagawa",
             Self::Everforest => "everforest",
             Self::Cyberpunk => "cyberpunk",
+            Self::MidnightCommander => "midnight-commander",
         }
     }
 
@@ -292,7 +302,7 @@ impl ThemeName {
     /// assert_eq!(theme.next(), ThemeName::OneDarkPro);
     ///
     /// // Wraps around at the end
-    /// let last = ThemeName::Cyberpunk;
+    /// let last = ThemeName::MidnightCommander;
     /// assert_eq!(last.next(), ThemeName::Dracula);
     /// ```
     #[must_use]
@@ -316,7 +326,7 @@ impl ThemeName {
     ///
     /// // Wraps around at the beginning
     /// let first = ThemeName::Dracula;
-    /// assert_eq!(first.prev(), ThemeName::Cyberpunk);
+    /// assert_eq!(first.prev(), ThemeName::MidnightCommander);
     /// ```
     #[must_use]
     pub fn prev(self) -> Self {
@@ -555,6 +565,20 @@ impl ThemeName {
                 success: Color::Rgb(0, 255, 100),   // Neon green
                 info: Color::Rgb(0, 180, 255),      // Neon blue
             },
+
+            // Midnight Commander: classic file manager theme
+            Self::MidnightCommander => ThemePalette {
+                accent: Color::Rgb(0, 170, 170),    // Cyan
+                secondary: Color::Rgb(0, 255, 0),   // Green
+                bg: Color::Rgb(0, 0, 170),          // Dark blue
+                fg: Color::Rgb(255, 255, 255),      // White
+                muted: Color::Rgb(170, 170, 170),   // Light gray
+                selection: Color::Rgb(0, 170, 170), // Cyan selection
+                error: Color::Rgb(255, 255, 255),   // White
+                warning: Color::Rgb(255, 170, 0),   // Orange
+                success: Color::Rgb(0, 255, 0),     // Green
+                info: Color::Rgb(0, 170, 170),      // Cyan
+            },
         }
     }
 }
@@ -611,6 +635,7 @@ impl std::str::FromStr for ThemeName {
             "kanagawa" => Ok(Self::Kanagawa),
             "everforest" => Ok(Self::Everforest),
             "cyberpunk" => Ok(Self::Cyberpunk),
+            "midnightcommander" | "midnight-commander" | "mc" => Ok(Self::MidnightCommander),
             _ => Err(format!("Unknown theme: {s}")),
         }
     }
@@ -851,6 +876,6 @@ mod tests {
 
     #[test]
     fn test_theme_count() {
-        assert_eq!(ThemeName::all().len(), 15);
+        assert_eq!(ThemeName::all().len(), 16);
     }
 }
