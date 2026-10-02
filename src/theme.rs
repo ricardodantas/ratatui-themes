@@ -176,6 +176,12 @@ pub enum ThemeName {
     /// file manager. Features a dark blue background with cyan and white
     /// text elements.
     MidnightCommander,
+
+    /// MSX - color theme of MSX retrocomputers
+    ///
+    /// A theme inspired by color palette of MSX retrocomputers. Features
+    /// a blue background.
+    MSX,
 }
 
 impl ThemeName {
@@ -194,7 +200,7 @@ impl ThemeName {
     /// }
     ///
     /// // Get the total number of themes
-    /// assert_eq!(ThemeName::all().len(), 16);
+    /// assert_eq!(ThemeName::all().len(), 17);
     /// ```
     #[must_use]
     pub const fn all() -> &'static [Self] {
@@ -215,6 +221,7 @@ impl ThemeName {
             Self::Everforest,
             Self::Cyberpunk,
             Self::MidnightCommander,
+            Self::MSX,
         ]
     }
 
@@ -250,6 +257,7 @@ impl ThemeName {
             Self::Everforest => "Everforest",
             Self::Cyberpunk => "Cyberpunk",
             Self::MidnightCommander => "Midnight Commander",
+            Self::MSX => "MSX",
         }
     }
 
@@ -286,6 +294,7 @@ impl ThemeName {
             Self::Everforest => "everforest",
             Self::Cyberpunk => "cyberpunk",
             Self::MidnightCommander => "midnight-commander",
+            Self::MSX => "msx",
         }
     }
 
@@ -302,7 +311,7 @@ impl ThemeName {
     /// assert_eq!(theme.next(), ThemeName::OneDarkPro);
     ///
     /// // Wraps around at the end
-    /// let last = ThemeName::MidnightCommander;
+    /// let last = ThemeName::MSX;
     /// assert_eq!(last.next(), ThemeName::Dracula);
     /// ```
     #[must_use]
@@ -326,7 +335,7 @@ impl ThemeName {
     ///
     /// // Wraps around at the beginning
     /// let first = ThemeName::Dracula;
-    /// assert_eq!(first.prev(), ThemeName::MidnightCommander);
+    /// assert_eq!(first.prev(), ThemeName::MSX);
     /// ```
     #[must_use]
     pub fn prev(self) -> Self {
@@ -579,6 +588,20 @@ impl ThemeName {
                 success: Color::Rgb(0, 255, 0),     // Green
                 info: Color::Rgb(0, 170, 170),      // Cyan
             },
+
+            // MSX: https://paulwratt.github.io/programmers-palettes/HW-MSX/HW-MSX-palettes.html
+            Self::MSX => ThemePalette {
+                accent: Color::Rgb(101, 219, 239),    // Cyan
+                secondary: Color::Rgb(116, 208, 125), // Light green
+                bg: Color::Rgb(89, 85, 224),          // Dark blue
+                fg: Color::Rgb(255, 255, 255),        // White
+                muted: Color::Rgb(204, 204, 204),     // Gray
+                selection: Color::Rgb(128, 118, 241), // Light blue
+                error: Color::Rgb(219, 101, 89),      // Medium red
+                warning: Color::Rgb(222, 208, 135),   // Light yellow
+                success: Color::Rgb(62, 184, 73),     // Medium green
+                info: Color::Rgb(204, 195, 94),       // Dark yellow
+            },
         }
     }
 }
@@ -636,6 +659,7 @@ impl std::str::FromStr for ThemeName {
             "everforest" => Ok(Self::Everforest),
             "cyberpunk" => Ok(Self::Cyberpunk),
             "midnightcommander" | "midnight-commander" | "mc" => Ok(Self::MidnightCommander),
+            "msx" => Ok(Self::MSX),
             _ => Err(format!("Unknown theme: {s}")),
         }
     }
@@ -841,6 +865,7 @@ mod tests {
             ThemeName::CatppuccinMocha.display_name(),
             "Catppuccin Mocha"
         );
+        assert_eq!(ThemeName::MSX.display_name(), "MSX");
     }
 
     #[test]
@@ -876,6 +901,6 @@ mod tests {
 
     #[test]
     fn test_theme_count() {
-        assert_eq!(ThemeName::all().len(), 16);
+        assert_eq!(ThemeName::all().len(), 17);
     }
 }
