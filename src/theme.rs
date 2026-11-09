@@ -181,7 +181,7 @@ pub enum ThemeName {
     ///
     /// A theme inspired by color palette of MSX retrocomputers. Features
     /// a blue background.
-    MSX,
+    Msx,
 }
 
 impl ThemeName {
@@ -221,7 +221,7 @@ impl ThemeName {
             Self::Everforest,
             Self::Cyberpunk,
             Self::MidnightCommander,
-            Self::MSX,
+            Self::Msx,
         ]
     }
 
@@ -257,7 +257,7 @@ impl ThemeName {
             Self::Everforest => "Everforest",
             Self::Cyberpunk => "Cyberpunk",
             Self::MidnightCommander => "Midnight Commander",
-            Self::MSX => "MSX",
+            Self::Msx => "MSX",
         }
     }
 
@@ -294,7 +294,7 @@ impl ThemeName {
             Self::Everforest => "everforest",
             Self::Cyberpunk => "cyberpunk",
             Self::MidnightCommander => "midnight-commander",
-            Self::MSX => "msx",
+            Self::Msx => "msx",
         }
     }
 
@@ -311,7 +311,7 @@ impl ThemeName {
     /// assert_eq!(theme.next(), ThemeName::OneDarkPro);
     ///
     /// // Wraps around at the end
-    /// let last = ThemeName::MSX;
+    /// let last = ThemeName::Msx;
     /// assert_eq!(last.next(), ThemeName::Dracula);
     /// ```
     #[must_use]
@@ -335,7 +335,7 @@ impl ThemeName {
     ///
     /// // Wraps around at the beginning
     /// let first = ThemeName::Dracula;
-    /// assert_eq!(first.prev(), ThemeName::MSX);
+    /// assert_eq!(first.prev(), ThemeName::Msx);
     /// ```
     #[must_use]
     pub fn prev(self) -> Self {
@@ -590,7 +590,7 @@ impl ThemeName {
             },
 
             // MSX: https://paulwratt.github.io/programmers-palettes/HW-MSX/HW-MSX-palettes.html
-            Self::MSX => ThemePalette {
+            Self::Msx => ThemePalette {
                 accent: Color::Rgb(101, 219, 239),    // Cyan
                 secondary: Color::Rgb(116, 208, 125), // Light green
                 bg: Color::Rgb(89, 85, 224),          // Dark blue
@@ -659,7 +659,7 @@ impl std::str::FromStr for ThemeName {
             "everforest" => Ok(Self::Everforest),
             "cyberpunk" => Ok(Self::Cyberpunk),
             "midnightcommander" | "midnight-commander" | "mc" => Ok(Self::MidnightCommander),
-            "msx" => Ok(Self::MSX),
+            "msx" => Ok(Self::Msx),
             _ => Err(format!("Unknown theme: {s}")),
         }
     }
@@ -865,7 +865,7 @@ mod tests {
             ThemeName::CatppuccinMocha.display_name(),
             "Catppuccin Mocha"
         );
-        assert_eq!(ThemeName::MSX.display_name(), "MSX");
+        assert_eq!(ThemeName::Msx.display_name(), "MSX");
     }
 
     #[test]
@@ -902,5 +902,21 @@ mod tests {
     #[test]
     fn test_theme_count() {
         assert_eq!(ThemeName::all().len(), 17);
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn serde_name_should_match_slug_and_round_trip_for_every_theme() {
+        for &theme in ThemeName::all() {
+            let json = serde_json::to_string(&theme).expect("theme name serializes");
+            assert_eq!(
+                json,
+                format!("\"{}\"", theme.slug()),
+                "serde name of {theme:?}"
+            );
+
+            let parsed: ThemeName = serde_json::from_str(&json).expect("theme name deserializes");
+            assert_eq!(parsed, theme, "round-trip of {theme:?}");
+        }
     }
 }
