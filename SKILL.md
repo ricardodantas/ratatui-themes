@@ -89,7 +89,7 @@ let json = serde_json::to_string(&config)?;
 
 | Category | Themes |
 |----------|--------|
-| Dark | Dracula, OneDarkPro, Nord, CatppuccinMocha, GruvboxDark, TokyoNight, SolarizedDark, MonokaiPro, RosePine, Kanagawa, Everforest, Cyberpunk |
+| Dark | Dracula, OneDarkPro, Nord, CatppuccinMocha, GruvboxDark, TokyoNight, SolarizedDark, MonokaiPro, RosePine, Kanagawa, Everforest, Cyberpunk, MidnightCommander, Msx |
 | Light | CatppuccinLatte, GruvboxLight, SolarizedLight |
 
 ## Palette Reference

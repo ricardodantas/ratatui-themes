@@ -17,7 +17,7 @@
 
 ## ✨ Features
 
-- 🎨 **16+ Popular Themes** — Dracula, Nord, Catppuccin, Gruvbox, Tokyo Night, and more
+- 🎨 **17 Popular Themes** — Dracula, Nord, Catppuccin, Gruvbox, Tokyo Night, and more
 - 🔄 **Easy Theme Cycling** — Built-in `next()`/`prev()` methods for theme switchers
 - 📦 **Serde Support** — Optional serialization for saving theme preferences
 - 🌗 **Light/Dark Detection** — Programmatically determine if a theme is light or dark
@@ -84,6 +84,7 @@ let muted_text = Style::default()
 | **Everforest** | 🌙 Dark | `#a7c080` | Comfortable forest green |
 | **Cyberpunk** | 🌙 Dark | `#ff00ff` | Neon-soaked futuristic |
 | **Midnight Commander** | 🌙 Dark | `#00aaaa` | Classic file manager theme |
+| **MSX** | 🌙 Dark | `#65dbef` | Retro MSX home computer palette |
 
 ## 🔧 API Reference
 
