@@ -8,7 +8,7 @@
 //!
 //! ## Features
 //!
-//! - **15+ popular themes** — Dracula, Nord, Catppuccin, Gruvbox, Tokyo Night, and more
+//! - **17 popular themes** — Dracula, Nord, Catppuccin, Gruvbox, Tokyo Night, and more
 //! - **Semantic colors** — Consistent `error`, `warning`, `success`, `info` across all themes
 //! - **Easy theme cycling** — Built-in `next()`/`prev()` methods for theme switchers
 //! - **Light/dark detection** — Programmatically determine if a theme is light or dark
@@ -103,7 +103,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! ratatui-themes = { version = "0.1", default-features = false }
+//! ratatui-themes = { version = "0.4", default-features = false }
 //! ```
 
 #![doc(html_root_url = "https://docs.rs/ratatui-themes/0.1.1")]

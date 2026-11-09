@@ -17,27 +17,40 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 ## Adding a New Theme
 
+Everything happens in `src/theme.rs`. Add the theme at the **end** of the list: the order of `ThemeName::all()` is the order `next()`/`prev()` cycle through.
+
 ### Step 1: Add the Theme Variant
 
-In `src/theme.rs`, add your theme to the `ThemeName` enum:
+Add a documented variant to the `ThemeName` enum, then add it to `ThemeName::all()`:
 
 ```rust
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum ThemeName {
     // ... existing themes ...
-    
-    #[cfg_attr(feature = "serde", serde(rename = "my-theme"))]
+
+    /// My Theme — one-line description.
+    ///
+    /// Source: <https://example.com/my-theme>
     MyTheme,
 }
 ```
 
-### Step 2: Define the Colors
+Don't add a `#[serde(rename)]`. The enum has `#[serde(rename_all = "kebab-case")]`, which turns `MyTheme` into `"my-theme"`. Kebab-case puts a hyphen before **every** capital letter, so write acronyms in PascalCase: `Msx` serializes as `"msx"`, but `MSX` would become `"m-s-x"`.
 
-In `src/palette.rs`, add a match arm in `ThemePalette::from_name()`:
+### Step 2: Add the Names
+
+Add arms to these methods on `ThemeName`:
+
+- `display_name()` — the human name, e.g. `"My Theme"`
+- `slug()` — the kebab-case name, e.g. `"my-theme"`. It must match the serde name.
+- `FromStr` — input is lowercased and stripped to letters and digits before matching, so write the arm as `"mytheme"`, plus any short aliases.
+
+### Step 3: Define the Colors
+
+Add a match arm in `ThemeName::palette()` (in `src/theme.rs`):
 
 ```rust
-ThemeName::MyTheme => Self {
+// My Theme: https://example.com/my-theme
+Self::MyTheme => ThemePalette {
     accent: Color::Rgb(r, g, b),      // Primary accent
     secondary: Color::Rgb(r, g, b),   // Secondary accent
     bg: Color::Rgb(r, g, b),          // Background
@@ -51,25 +64,39 @@ ThemeName::MyTheme => Self {
 },
 ```
 
-### Step 3: Update Theme Lists
+Light/dark detection is automatic: `is_light()` checks the brightness of `bg`, which must be a `Color::Rgb`.
 
-1. Add to `ThemeName::all()` array
-2. Update `next()` and `prev()` cycling methods
-3. Update `is_light()` if your theme is a light theme
+### Step 4: Update the Tests
 
-### Step 4: Update Documentation
+- Bump the theme count in `test_theme_count` and in the `ThemeName::all()` doctest.
+- Point the wrap-around doctests of `next()` and `prev()` at your theme, which is now the last one.
+- `next()` and `prev()` themselves need no change.
 
-1. Add to the theme table in `README.md`
-2. Add to the theme list in `SKILL.md`
-3. Add to `CHANGELOG.md` under `[Unreleased]`
+`serde_name_should_match_slug_and_round_trip_for_every_theme` checks that each theme's serde name equals `slug()` and parses back. Run `cargo test --features serde` to catch casing mistakes.
+
+### Step 5: Update the Documentation
+
+1. Add a row to the theme table in `README.md`
+2. Add a row to the theme table in the crate docs at the top of `src/lib.rs`
+3. Add the variant to the theme list in `SKILL.md`
+4. Update the theme count in `README.md`, `src/lib.rs`, `SKILL.md` and `llms.txt`
+5. Add an entry to `CHANGELOG.md` under `[Unreleased]`
 
 ## Code Guidelines
 
-- **Format code** with `cargo fmt`
-- **Run clippy** with `cargo clippy`
-- **Run tests** with `cargo test` and `cargo test --features serde`
+Run what CI runs before opening a PR:
+
+```bash
+cargo fmt --check
+cargo clippy -- -D warnings
+cargo clippy --features serde -- -D warnings
+cargo test
+cargo test --features serde
+RUSTDOCFLAGS="-D warnings" cargo doc --no-deps --all-features
+```
+
 - **Document** all public items with doc comments
-- **Use RGB colors** for consistency (avoid terminal color names)
+- **Use RGB colors** (`Color::Rgb`) rather than terminal color names, so colors look the same everywhere and light/dark detection works
 
 ## Commit Messages
 
@@ -86,6 +113,8 @@ Use clear, descriptive commit messages:
 2. Update documentation as needed
 3. Add a changelog entry
 4. Submit a PR with a clear description of changes
+
+Leave the version in `Cargo.toml` alone. Maintainers release through the `Release` GitHub Actions workflow, which bumps the version, tags, and publishes to crates.io.
 
 ## Theme Selection Criteria
 

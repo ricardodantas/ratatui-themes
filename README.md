@@ -19,9 +19,10 @@
 
 - 🎨 **17 Popular Themes** — Dracula, Nord, Catppuccin, Gruvbox, Tokyo Night, and more
 - 🔄 **Easy Theme Cycling** — Built-in `next()`/`prev()` methods for theme switchers
-- 📦 **Serde Support** — Optional serialization for saving theme preferences
+- 📦 **Serde Support** — Serialization for saving theme preferences (on by default)
 - 🌗 **Light/Dark Detection** — Programmatically determine if a theme is light or dark
 - 🎯 **Semantic Colors** — Consistent `error`, `warning`, `success`, `info` across all themes
+- 🧩 **Theme Picker Widget** — Optional `ThemePicker` widget behind the `widgets` feature
 - ⚡ **Zero Dependencies** — Only requires `ratatui` (and optionally `serde`)
 
 ## 📦 Installation
@@ -30,14 +31,21 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-ratatui-themes = "0.1"
+ratatui-themes = "0.4"
 ```
 
-With serde support for configuration files:
+Serde support for configuration files is enabled by default. To leave it out:
 
 ```toml
 [dependencies]
-ratatui-themes = { version = "0.1", features = ["serde"] }
+ratatui-themes = { version = "0.4", default-features = false }
+```
+
+With the `ThemePicker` widget:
+
+```toml
+[dependencies]
+ratatui-themes = { version = "0.4", features = ["widgets"] }
 ```
 
 ## 🚀 Quick Start
@@ -147,7 +155,7 @@ if theme.is_dark() {
 
 ### Serde Integration
 
-Save and load theme preferences (requires `serde` feature):
+Save and load theme preferences (`serde` feature, enabled by default):
 
 ```rust
 use ratatui_themes::ThemeName;
@@ -210,8 +218,7 @@ impl App {
     }
 
     fn cycle_theme(&mut self) {
-        let next_name = self.theme.name().next();
-        self.theme = Theme::new(next_name);
+        self.theme.next();
     }
 }
 ```
@@ -219,7 +226,7 @@ impl App {
 ### Status Bar with Semantic Colors
 
 ```rust
-use ratatui_themes::{Theme, ThemeName};
+use ratatui_themes::{Style, Theme};
 
 fn render_status_bar(theme: &Theme, status: &str) -> Style {
     let palette = theme.palette();
@@ -243,11 +250,7 @@ Contributions are welcome! Here's how you can help:
 
 ### Adding a New Theme
 
-1. Add the theme variant to `ThemeName` enum in `src/theme.rs`
-2. Implement the palette in `ThemePalette::from_name()`
-3. Add to `ThemeName::all()` list
-4. Update the README theme table
-5. Add tests
+See [Adding a New Theme](CONTRIBUTING.md#adding-a-new-theme) in `CONTRIBUTING.md` for the full checklist.
 
 ## 📄 License
 

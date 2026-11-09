@@ -11,7 +11,7 @@ description: >
 
 # ratatui-themes Skill
 
-A Rust library providing 15+ pre-defined color themes for terminal UI applications
+A Rust library providing 17 pre-defined color themes for terminal UI applications
 built with `ratatui`. Includes Dracula, Nord, Catppuccin, Tokyo Night, Gruvbox,
 and more — with semantic status colors and optional serde support for persistence.
 
@@ -29,7 +29,7 @@ and more — with semantic status colors and optional serde support for persiste
 ```toml
 # Cargo.toml
 [dependencies]
-ratatui-themes = "0.1"
+ratatui-themes = "0.4"
 ```
 
 ### 2. Apply a theme to a widget
@@ -64,10 +64,12 @@ current = current.prev();
 
 ### 4. Persist theme preference with serde
 
+The `serde` feature is enabled by default; add `serde` itself to derive on your config type:
+
 ```toml
 # Cargo.toml
 [dependencies]
-ratatui-themes = { version = "0.1", features = ["serde"] }
+ratatui-themes = "0.4"
 serde = { version = "1", features = ["derive"] }
 ```
 
@@ -80,7 +82,7 @@ struct AppConfig {
     theme: ThemeName,
 }
 
-// Save / load via serde_json, toml, etc.
+// Save / load via serde_json, toml, etc. Names are kebab-case: "nord", "tokyo-night"
 let config = AppConfig { theme: ThemeName::Nord };
 let json = serde_json::to_string(&config)?;
 ```
@@ -94,7 +96,7 @@ let json = serde_json::to_string(&config)?;
 
 ## Palette Reference
 
-Each theme exposes a `Palette` with these fields:
+Each theme exposes a `ThemePalette` (`theme.palette()`) with these fields:
 
 | Field | Purpose |
 |-------|---------|
