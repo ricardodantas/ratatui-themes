@@ -30,7 +30,7 @@ let palette = theme.palette();
 
 ```toml
 [dependencies]
-ratatui-themes = "0.1"
+ratatui-themes = "0.4"
 ```
 
 ## Links
