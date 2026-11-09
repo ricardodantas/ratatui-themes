@@ -91,6 +91,8 @@
 //! | Kanagawa | Dark | Inspired by Hokusai's art |
 //! | Everforest | Dark | Comfortable forest green |
 //! | Cyberpunk | Dark | Neon-soaked futuristic |
+//! | Midnight Commander | Dark | Classic file manager theme |
+//! | MSX | Dark | Retro MSX home computer palette |
 //!
 //! ## Feature Flags
 //!
