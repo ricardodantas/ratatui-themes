@@ -87,7 +87,7 @@ gh workflow run release.yml -f bump=minor   # none | patch | minor | major
 
 It bumps `Cargo.toml`/`Cargo.lock` with `cargo set-version` and commits `chore: bump version to X.Y.Z` to `main`. It then runs `cargo test` and `cargo test --features serde`, tags and pushes `vX.Y.Z`, creates the GitHub release with generated notes, and publishes to crates.io. `bump=none` releases the version already in `Cargo.toml`.
 
-The version in `Cargo.toml` changes only through this workflow. The workflow never touches `CHANGELOG.md`, so get the changelog right through a PR before releasing.
+The version in `Cargo.toml` changes only through this workflow, which leaves `CHANGELOG.md` alone. Before triggering a release, open a PR that moves the `[Unreleased]` entries under a dated `## [X.Y.Z] - YYYY-MM-DD` heading, leaves an empty `## [Unreleased]` above it, and updates the compare links at the bottom.
 
 ## Code Style
 
